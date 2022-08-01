@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{Client/clientLayOut.html}">
+<head>
+    <meta charset="UTF-8">
+    <title>Product Details</title>
+</head>
+<style>
+    body {
+        background-color: #f7f6f6
+    }
+
+    .card {
+
+        border: none;
+        box-shadow: 5px 6px 6px 2px #e9ecef;
+        border-radius: 4px;
+    }
+
+
+    .dots{
+
+        height: 4px;
+        width: 4px;
+        margin-bottom: 2px;
+        background-color: #bbb;
+        border-radius: 50%;
+        display: inline-block;
+    }
+
+    .badge{
+
+        padding: 7px;
+        padding-right: 9px;
+        padding-left: 16px;
+        box-shadow: 5px 6px 6px 2px #e9ecef;
+    }
+
+    .user-img{
+
+        margin-top: 4px;
+    }
+
+    .check-icon{
+
+        font-size: 17px;
+        color: #c3bfbf;
+        top: 1px;
+        position: relative;
+        margin-left: 3px;
+    }
+
+    .form-check-input{
+        margin-top: 6px;
+        margin-left: -24px !important;
+        cursor: pointer;
+    }
+
+
+    .form-check-input:focus{
+        box-shadow: none;
+    }
+
+
+    .icons i{
+
+        margin-left: 8px;
+    }
+    .reply{
+
+        margin-left: 12px;
+    }
+
+    .reply small{
+
+        color: #b7b4b4;
+
+    }
+
+
+    .reply small:hover{
+
+        color: green;
+        cursor: pointer;
+
+    }
+</style>
+<body>
+<h2 >Category</h2>
+<div layout:fragment="content">
+    <section class="module bg-dark-60 shop-page-header" style="background-image: url(assets/images/CateDetailBanner.png); background-size: 100% 100%; height: 600px ">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-6 col-sm-offset-3">
+                    <h2 class="module-title font-alt" th:text="${category.name}"></h2>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section  class="module" id="alt-features">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-6 col-md-3 col-lg-3">
+                    <div class="alt-features-item">
+                        <div class="alt-features-icon"><span class="icon-strategy"></span></div>
+                        <h3 class="alt-features-title font-alt">only one touch</h3>Just TOUCH someone else's phone and their phone will show your contact information.
+                    </div>
+                    <div class="alt-features-item">
+                        <div class="alt-features-icon"><span class="icon-tools-2"></span></div>
+                        <h3 class="alt-features-title font-alt">
+                            easy to add information</h3>You will be guided through everything.
+                    </div>
+                    <div class="alt-features-item">
+                        <div class="alt-features-icon"><span class="icon-target"></span></div>
+                        <h3 class="alt-features-title font-alt">unlimited</h3>You can add as much information as you want, unlimited.
+                    </div>
+                    <div class="alt-features-item">
+                        <div class="alt-features-icon"><span class="icon-tools"></span></div>
+                        <h3 class="alt-features-title font-alt">Design</h3>You can design your own style card.
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-6 hidden-xs hidden-sm">
+                    <div class="alt-services-image align-center"><img th:src="${category.getFrontImage()}" alt="Feature Image" style="margin-top: -110px"></div>
+                    <div class="alt-services-image align-center"><img th:src="${category.getBackImage()}" alt="Feature Image"></div>
+                </div>
+                <div class="col-sm-6 col-md-3 col-lg-3">
+                    <div class="alt-features-item">
+                        <div class="alt-features-icon"><span class="icon-camera"></span></div>
+                        <h3 class="alt-features-title font-alt">environment</h3>Reduce the amount of waste in the environment.
+                    </div>
+                    <div class="alt-features-item">
+                        <div class="alt-features-icon"><span class="icon-mobile"></span></div>
+                        <h3 class="alt-features-title font-alt">compatible with smartphones</h3>
+                        Compatible with most current smartphones such as iPhone, Samsung, Oppo, Xiaomi...
+                    </div>
+                    <div class="alt-features-item">
+                        <div class="alt-features-icon"><span class="icon-linegraph"></span></div>
+                        <h3 class="alt-features-title font-alt">technology fanatic</h3>ONE TOUCH is an indispensable item of technology believers.
+                    </div>
+                    <div class="alt-features-item">
+                        <div class="alt-features-icon"><span class="icon-basket"></span></div>
+                        <h3 class="alt-features-title font-alt">Flexible pricing</h3>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="module" id="pricing">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-6 col-sm-offset-3">
+                    <h2 class="module-title font-alt">Our Prices</h2>
+                    <div class="module-subtitle font-serif">A wonderful serenity has taken possession of my entire soul, like these sweet mornings of spring which I enjoy with my whole heart.</div>
+                </div>
+            </div>
+            <div class="row multi-columns-row">
+                <div class="col-sm-6 col-md-4 col-lg-4">
+                    <div class="price-table font-alt">
+                        <h4>1 year</h4>
+                        <div class="borderline"></div>
+                        <p class="price"><span>$</span>10
+                        </p>
+                        <ul class="price-details">
+                            <li>Free Support</li>
+                            <li><span>Saving Money</span></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-sm-6 col-md-4 col-lg-4">
+                    <div class="price-table font-alt">
+                        <h4>3 years</h4>
+                        <div class="borderline"></div>
+                        <p class="price"><span>$</span>25
+                        </p>
+                        <ul class="price-details">
+                            <li>Free Support</li>
+                            <li>Save 5$</li>
+
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-sm-6 col-md-4 col-lg-4">
+                    <div class="price-table font-alt best">
+                        <h4>10 years</h4>
+                        <p class="small">Best Choice</p>
+                        <div class="borderline"></div>
+                        <p class="price"><span>$</span>80
+                        </p>
+                        <ul class="price-details">
+                            <li>Free Support</li>
+                            <li>Save 20$</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="module-small bg-dark">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-6 col-md-8 col-lg-6 col-lg-offset-2">
+                    <div class="callout-text font-alt">
+                        <h3 class="callout-title" th:text="'Want to order this '+ ${category.name} + '?'"></h3>
+                    </div>
+                </div>
+                <div class="col-sm-6 col-md-4 col-lg-2">
+                    <div class="callout-btn-box"><a class="btn btn-w btn-round" th:href="@{/Order-{id}(id=${category.id})}">Order</a></div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="module">
+        <div class="container">
+            <div class="row multi-columns-row">
+                <div class="col-sm-6 col-md-6 col-lg-6" th:each="cate : ${categories}">
+                    <div class="price-table font-alt">
+                        <h4 th:text="${cate.getName()}"></h4>
+                        <div class="borderline"></div>
+                        <p class="price"><span th:text="${cate.getPrice()}+ '$'"></span>
+                        </p>
+                        <ul class="price-details">
+                            <li>Free Support</li>
+                            <li>15 Demos Included</li>
+                            <li><span>Newsletter</span></li>
+                            <li><span>Working Contact Form</span></li>
+                            <li><span>Unlimited Domains</span></li>
+                        </ul><a class="btn btn-d btn-round" th:href="@{/Order-{id}(id=${category.id})}">Sign Up</a>
+                    </div>
+                </div>
+            </div>
+            <div class="container mt-5">
+
+                <div class="row  d-flex justify-content-center">
+
+                    <div class="col-md-8">
+
+                        <div class="headings d-flex justify-content-between align-items-center mb-3">
+                            <h5>Comments</h5>
+
+
+
+                        </div>
+
+
+
+                        <div class="card p-3" th:each="Review : ${review}" id="SectionReview">
+
+                            <div class="d-flex justify-content-between align-items-center">
+
+                                <div class="user d-flex flex-row align-items-center">
+
+                                    <img src="https://i.imgur.com/hczKIze.jpg" width="30" class="user-img rounded-circle mr-2">
+                                    <span><small class="font-weight-bold text-primary" th:text="${Review.getUser().fullname}"></small> <small class="font-weight-bold" th:text="${Review.review}"></small></span>
+
+                                </div>
+
+
+                                <small th:text="${#dates.format(Review.create_at,'dd-MM-yyyy')}" ></small>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+    </section>
+</div>
+
+</body>
+</html>

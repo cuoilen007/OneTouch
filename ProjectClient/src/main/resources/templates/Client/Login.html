@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{Client/clientLayOut.html}">
+<head>
+    <meta charset="UTF-8">
+    <title>Login Account</title>
+</head>
+<body>
+<main class="main" layout:fragment="content">
+    <section class="module" data-background="assets/images/LoginBanner.png" b style="background-size: cover; height: 800px">
+        <div class="container">
+<!--            <div class="row">-->
+<!--                <div class="col-sm-6 col-sm-offset-3">-->
+<!--                    <h1 class="module-title font-alt mb-0">Login-Register</h1>-->
+<!--                </div>-->
+<!--            </div>-->
+        </div>
+    </section>
+    <section class="module">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-5 col-sm-offset-1 mb-sm-40">
+                    <h4 class="font-alt">Login</h4>
+                    <hr class="divider-w mb-10">
+
+                    <div style="color: red" th:if="${errorMessage} != null">
+
+                        <div class="alert alert-danger msgAlert1" th:text="${errorMessage}" role="alert"><strong>Alert!</strong>
+                            The European languages are members of the same family.
+                        </div>
+
+                    </div>
+                    <form class="form" th:action="@{/login}" method="post">
+                        <div class="form-group">
+                            <input class="form-control" required id="username" type="text" name="username"
+                                   placeholder="Username"/>
+                        </div>
+                        <div class="form-group">
+                            <input class="form-control" required id="password" type="password" name="password"
+                                   placeholder="Password"/>
+                        </div>
+                        <div class="form-group">
+                            <button class="btn btn-round btn-b">Login</button>
+                        </div>
+
+
+                    </form>
+                    <div style="color: red" th:if="${SendEmailError} != null">
+
+                        <div class="alert alert-danger msgAlert1" th:text="${SendEmailError}" role="alert"><strong>Alert!</strong>
+                            The European languages are members of the same family.
+                        </div>
+
+                    </div>
+                    <div style="color: red" th:if="${SendEmailSuccess} != null">
+
+                        <div class="alert alert-success msgAlert1" th:text="${SendEmailSuccess}" role="alert"><strong>Alert!</strong>
+                            The European languages are members of the same family.
+                        </div>
+
+                    </div>
+                    <form th:method="post" th:action="@{/changePassword}" th:object="${changePassword}">
+                        <div class="form-group">
+                            <input class="form-control" required id="email" th:field="*{email}"
+                                   placeholder="Email change password"/>
+                        </div>
+                        <div class="form-group">
+                            <button class="btn btn-round btn-b">Forgot Password</button>
+                        </div>
+                    </form>
+
+                </div>
+                <div class="col-sm-5">
+                    <h4 class="font-alt">Register</h4>
+                    <hr class="divider-w mb-10">
+
+                    <div style="color: red" th:if="${errorMessageSignUp} != null">
+
+                        <div class="alert alert-danger msgAlert1" th:text="${errorMessageSignUp}" role="alert"><strong>Alert!</strong>
+                            The European languages are members of the same family.
+                        </div>
+
+                    </div>
+
+                    <span class="text-danger" th:if="${userParseError != null}">
+                        <div class="alert alert-danger" th:if="${userParseError.phone}" th:text="${userParseError.phone}"
+                             role="alert">
+                        </div>
+                        <div class="alert alert-danger" th:if="${userParseError.fullname}" th:text="${userParseError.fullname}"
+                             role="alert">
+                        </div>
+                        <div class="alert alert-danger" th:if="${userParseError.address}" th:text="${userParseError.address}"
+                             role="alert" >
+                        </div>
+                        <div class="alert alert-danger" th:if="${userParseError.lastname}" th:text="${userParseError.lastname}"
+                             role="alert">
+                        </div>
+                        <div class="alert alert-danger" th:if="${userParseError.dateOfbirth}" th:text="${userParseError.dateOfbirth}"
+                             role="alert">
+                        </div>
+                        <div class="alert alert-danger" th:if="${userParseError.username}" th:text="${userParseError.username}"
+                             role="alert">
+                        </div>
+                        <div class="alert alert-danger" th:if="${userParseError.email}" th:text="${userParseError.email}"
+                                   role="alert">
+                        </div>
+                          <div class="alert alert-danger" th:if="${userParseError.password}" th:text="${userParseError.password}"
+                               role="alert">
+                        </div>
+                    </span>
+                    <span class="text-success" th:if="${successProfile != null}">
+                        <div class="alert alert-success" th:if="${successProfile}" th:text="${successProfile}"
+                             role="alert">
+                        </div>
+                    </span>
+                    <form class="form" th:object="${SignUpRequest}" th:action="@{/Signup}" method="post" name="signUp" onsubmit="validate()">
+                        <div class="form-group">
+                            <input class="form-control" id="E-mail" required type="text" th:field="*{email}"
+                                   placeholder="Email"/>
+                        </div>
+                        <div class="form-group">
+                            <input class="form-control" id="fullname" required type="text" th:field="*{fullname}"
+                                   placeholder="Firstname"/>
+                        </div>
+                        <div class="form-group">
+                            <input class="form-control" id="lastname" required type="text" th:field="*{lastname}"
+                                   placeholder="Lastname"/>
+                        </div>
+                        <div class="form-group">
+                            <input class="form-control" id="phone" type="text" required th:field="*{phone}"
+                                   placeholder="Phone Number"/>
+                        </div>
+                        <div class="form-group">
+                            <div class="place"></div>
+                            <input class="form-control" type="text" required th:field="*{address}" id="searchTextField"
+                                   placeholder="Address"/>
+                            <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAzXOsTOt4FHKc9fk8gply0dQulD2 ON3iU&libraries=places"></script>
+                            <script>
+                                const searchInput = document.getElementById('searchTextField');
+                                const autocomplete = new google.maps.places.Autocomplete(searchInput);
+
+                                searchInput.addEventListener("change", () => {
+                                    setTimeout(function() {
+
+                                        let addr = searchInput.value;
+                                        let embed = "<label for='exampleInputPassword1'></label><iframe width='446px' frameborder='0' scrolling='no' marginheight='0' marginwidth='0' src='https://maps.google.com/maps?&amp;q=" + encodeURIComponent(addr) + "&amp;output=embed'></iframe>";
+
+                                        $('.place').html(embed);
+                                    }, 200);
+                                    console.log(searchInput.value)
+
+                                });
+                            </script>
+                        </div>
+                        <div class="form-group">
+                            <input type="date" class="form-control" required th:field="*{dateOfbirth}">
+                        </div>
+                        <div class="form-group">
+                            <select class="form-control" th:field="*{gender}">
+                                <option th:value="true">Female</option>
+                                <option th:value="false">Male</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <input class="form-control" required id="username" type="text" th:field="*{username}"
+                                   placeholder="Username"/>
+
+
+
+                            <div class="form-group">
+                                <input class="form-control" type="password" th:field="*{password}" id="txtNewPassword" placeholder="Enter passward" name=password"">
+                            </div>
+                            <div class="form-group">
+                                <input class="form-control" type="password" id="txtConfirmPassword" placeholder="Confirm Passward" name="ConfirmPassword">                </div>
+
+                            <div class="registrationFormAlert" style="color:green;" id="CheckPasswordMatch"></div>
+
+                        <div class="form-group">
+                            <button class="btn btn-block btn-round btn-b">Register</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+</main>
+
+</body>
+
+
+</html>
+<script>
+    function validate() {
+        if( document.signUp.password.value !=  document.signUp.ConfirmPassword.value) {
+            alert("Please check your confirm password!") ;
+            document.signUp.ConfirmPassword.focus() ;
+            return false;
+        }
+        return( true );
+    }
+</script>

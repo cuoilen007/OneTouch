@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{Client/clientLayOut.html}">
+<head>
+    <meta charset="UTF-8">
+    <title>Error</title>
+</head>
+<style>
+    body {
+        background-color: #f7f6f6
+    }
+
+    .card {
+
+        border: none;
+        box-shadow: 5px 6px 6px 2px #e9ecef;
+        border-radius: 4px;
+    }
+
+
+    .dots{
+
+        height: 4px;
+        width: 4px;
+        margin-bottom: 2px;
+        background-color: #bbb;
+        border-radius: 50%;
+        display: inline-block;
+    }
+
+    .badge{
+
+        padding: 7px;
+        padding-right: 9px;
+        padding-left: 16px;
+        box-shadow: 5px 6px 6px 2px #e9ecef;
+    }
+
+    .user-img{
+
+        margin-top: 4px;
+    }
+
+    .check-icon{
+
+        font-size: 17px;
+        color: #c3bfbf;
+        top: 1px;
+        position: relative;
+        margin-left: 3px;
+    }
+
+    .form-check-input{
+        margin-top: 6px;
+        margin-left: -24px !important;
+        cursor: pointer;
+    }
+
+
+    .form-check-input:focus{
+        box-shadow: none;
+    }
+
+
+    .icons i{
+
+        margin-left: 8px;
+    }
+    .reply{
+
+        margin-left: 12px;
+    }
+
+    .reply small{
+
+        color: #b7b4b4;
+
+    }
+
+
+    .reply small:hover{
+
+        color: green;
+        cursor: pointer;
+
+    }
+</style>
+<body>
+<div layout:fragment="content">
+    <section class="home-section home-parallax home-fade home-full-height bg-dark bg-dark-30" id="home" data-background="assets/images/error.png">
+        <div class="titan-caption">
+            <div class="caption-content">
+                <div class="font-alt mb-30 titan-title-size-4">Error 404</div>
+                <div class="font-alt">The requested URL was not found on this server.<br/>That is all we know.
+                </div>
+                <div class="font-alt mt-30"><a class="btn btn-border-w btn-round" th:href="@{/Client}">Back to home page</a></div>
+            </div>
+        </div>
+    </section>
+    <div></div>
+</div>
+</body>
+</html>

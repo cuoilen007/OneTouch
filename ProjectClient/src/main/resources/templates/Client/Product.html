@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{Client/clientLayOut.html}">
+<head>
+    <meta charset="UTF-8">
+    <style>
+        .review {
+            padding-top: 40px;
+            padding: 1rem;
+            padding-bottom: 60px;
+            margin: auto;
+            position: relative;
+            display: flex;
+            min-height: 80vh;
+            padding-bottom: 20px;
+            position: relative;
+            width: 100%;
+            min-height: 320px;
+            text-align: center;
+            margin: auto;
+            padding: 15px 15px 20px;
+            z-index: 1;
+            display: block;
+        }
+        .avatar {
+            position: relative;
+            width: 100px;
+            height: 100px;
+            margin: auto;
+            border-radius: 50%;
+            border: 1px solid #f2f2f2;
+        }
+        .desc {
+            color: #777;
+            font-size: 20px;
+            line-height: 24px;
+            min-height: 24px;
+            margin-bottom: 12px;
+            word-break: break-word;
+            white-space: pre-wrap;
+        }
+        .btn-review {
+            counter-reset: buttonLinkSort;
+            background-color: white;
+            border-radius: 50vh;
+            position: relative;
+            text-align: center;
+            display: block;
+            margin-bottom: 20px;
+            margin: 18px 0;
+            min-height: 55px;
+            line-height: 55px;
+            position: relative;
+            max-width: 600px;
+        }
+
+        .btn-img {
+            position: absolute;
+            height: 44px;
+            left: 3%;
+            width: 44px;
+            line-height: 44px;
+            margin-top: 5px;
+        }
+        .link {
+            max-width: 600px;
+            margin: auto;
+        }
+        .btn-text {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 12px;
+            line-height: 1.6em;
+        }
+    </style>
+    <title>One Touch || My Product</title>
+
+</head>
+<body>
+<div layout:fragment="content">
+    <section class="module" id="alt-features">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-6 col-sm-offset-3">
+                    <h2 class="module-title font-alt" th:text="${Product.name} + ' (' + ${Product.count} + ' visits)'"></h2>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-6 col-md-6 col-lg-6 wrap" style="background-image: url(https://res.cloudinary.com/tphcm/image/upload/v1658475992/product/bg_xhch1h.jpg); background-repeat: no-repeat; background-attachment: fixed; background-size: 100% 100%;">
+                    <section class="review">
+                        <div class="container-fluid bg-1 text-center">
+                            <div class="avatar">
+                                <img th:src="${Product.avatar}" class="img-circle" alt="@Model.Title" style="height: 100px; width: 100px">
+                            </div>
+                            <h3 th:text="${Product.name}" style="color: whitesmoke"></h3>
+                            <h3 class="desc" th:text="${Product.description}"></h3>
+                        </div>
+                        <div class="container-fluid bg-2 text-center">
+
+                            <div class="link" th:each="url :  ${listUrl}" th:if="${listUrl.size()} > 0">
+                                <a th:href="${url.linkType.href + url.url}" target="_blank" data-title="@item.Title" data-url="@item.Type.DataUrl" data-html="@item.Type.DataUrl" autocomplete="off" class="btn-review">
+                                    <div class="btn-img"><img th:src="${url.linkType.linkImage}" width="44px" height="44px"/></div>
+                                    <span class="btn-text" th:text="${url.name}"></span>
+                                </a>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+
+                <div class="col-sm-6 col-md-6 col-lg-6">
+                    <form class="form" role="form" th:object="${EditProduct}" enctype="multipart/form-data" th:action="@{/Product/Edit}" method="post">
+                        <input type="hidden" th:field="*{id}">
+                        <div class="form-group">
+                            <lable>Avatar</lable>
+                            <input class="form-control" type="file" id="input-image" onchange="delete_oldImage()" th:field="*{avatar}"/>
+                            <div id="preview-image"></div>
+                            <div id="oldImage" height="88px"><img th:src="${Product.avatar}" style="height:88px"/></div>
+                        </div>
+                        <div class="form-group">
+                            <lable>Name*</lable>
+                            <input class="form-control" type="text" th:field="*{name}" minlength="3" maxlength="50" style="text-transform: none" />
+                        </div>
+                        <div class="form-group">
+                            <lable>Description</lable>
+                            <input class="form-control" type="text" th:field="*{description}" minlength="3" maxlength="50" style="text-transform: none"/>
+                        </div>
+                        <div class="form-group">
+                            <button type="submit">Save</button>
+                        </div>
+                    </form>
+
+                    <hr class="divider-w mt-10 mb-20">
+
+                    <h4 class="font-alt mb-0">Your Buttons</h4>
+                    <button type="submit" class="btn btn-success" data-target="#AddLink" data-toggle="modal" title="Add New Button">Add New Button</button>
+                    <hr class="divider-w mt-10 mb-20">
+                    <div class="panel-group" id="accordion">
+                        <div class="panel panel-default" th:if="${listUrl.size()} > 0" th:each="urlEdit :  ${listUrl}">
+                            <div class="panel-heading">
+                                <h4 class="panel-title font-alt">
+                                    <a class="collapsed" data-toggle="collapse" data-parent="#accordion" th:href="'#accordion'+${urlEdit.id}" th:text="${urlEdit.name}"></a>
+                                </h4>
+                            </div>
+                            <div class="panel-collapse collapse" th:id="'accordion'+${urlEdit.id}">
+                                <div class="panel-body">
+                                    <form class="form" role="form" th:action="@{/Product/EditUrl}" th:object="${EditUrl}" method="post" name="myEditForm" onsubmit="return(validateEdit());">
+                                        <input type="hidden" th:name="id" th:value="${urlEdit.id}">
+                                        <div class="form-group">
+                                            <lable>Button Name</lable>
+                                            <input class="form-control"  th:name="name" th:value="${urlEdit.name}" maxlength="50" minlength="3" style="text-transform: none"/>
+                                        </div>
+                                        <div class="form-group">
+                                            <lable>Button Type</lable>
+                                            <select class="form-control" th:name="linkTypeId" id="TypeId"  onChange="update()">
+                                                <option th:each="LinkType : ${listLinkType}" th:text="${LinkType.name}" th:value="${LinkType.id}" th:selected="(${LinkType.id} == ${urlEdit.linkType.id})" ></option>
+                                            </select>
+                                            <span id="text"></span>
+                                            <input class="form-control" type="text"  th:name="url" th:value="${urlEdit.url}" maxlength="50" minlength="3" style="text-transform: none"/>
+                                        </div>
+                                        <div class="form-group">
+                                            <button type="submit">Save</button>
+                                        </div>
+                                    </form>
+                                    <a class="btn btn-danger" th:href="@{/Product/DeleteUrl/{id}(id=${urlEdit.id})}">Delete Button</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <hr class="divider-w">
+    <section class="module-small">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-6 col-sm-offset-3">
+                    <h2 class="module-title font-alt">card analysis</h2>
+                    <div class="module-subtitle font-serif">Let us help you analyze your card data!</div>
+                </div>
+            </div>
+            <div  >
+                <form th:action="@{/Product}" method="get"  class="row">
+                    <div class="col-sm-4 mb-sm-20">
+                        <select class="form-control"  name="year" >
+                            <option disabled>Select Year</option>
+                            <option value="2022" selected="selected">2022</option>
+                        </select>
+                    </div>
+                    <div  class="col-sm-4 mb-sm-20">
+                        <select class="form-control" name="month">
+                            <option value="13">Select Month</option>
+                            <option value="1">January</option>
+                            <option value="2">February</option>
+                            <option value="3">March</option>
+                            <option value="4">April</option>
+                            <option value="5">May</option>
+                            <option value="6">June</option>
+                            <option value="7">July</option>
+                            <option value="8">August</option>
+                            <option value="9">September</option>
+                            <option value="10">October</option>
+                            <option value="11">November</option>
+                            <option value="12">December</option>
+                        </select>
+                    </div>
+                    <div class="col-sm-4">
+                        <button class="btn btn-block btn-round btn-g" type="submit">View Chart</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <div id="container"
+         style="height: 400px; margin: 0 auto"></div>
+
+    <div style="margin-top: 60px" id="AddLink" class="modal fade"  tabindex="-1" role="dialog" data-backdrop="false">
+        <div id="productModal">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="modal-product">
+                            <div class="product-info">
+                                <form class="form" th:object="${UrlProduct}" th:action="@{/Product/AddNewUrl}" method="post" name="myForm" onsubmit = "return(validate());">
+                                    <div class="form-group">
+                                        <lable>Button name*</lable>
+                                        <input class="form-control" type="text" placeholder="Button name" th:field="*{name}" maxlength="50" minlength="3" style="text-transform: none"/>
+                                    </div>
+                                    <div class="form-group">
+                                        <lable>Button Type*</lable>
+                                        <select class="form-control"  id="NewTypeId" onChange="NewUpdate()" th:name="type">
+                                            <option th:each="LinkType : ${listLinkType}" th:text="${LinkType.name}" th:value="${LinkType.id}"></option>
+                                        </select>
+                                    </div>
+                                    <div>
+                                        <lable>Link Url*</lable>
+                                        <div id="NewText"></div>
+                                        <input class="form-control" type="text" th:field="*{url}" maxlength="50" minlength="3" style="text-transform: none"/>
+                                    </div>
+                                    <div class="form-group">
+
+                                        <button type="submit">Create Button</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+</div>
+</body>
+</html>
+<script
+        src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<script src="https://code.highcharts.com/highcharts.js"></script>
+<script src="https://code.highcharts.com/modules/exporting.js"></script>
+<script th:inline="javascript">
+    Highcharts.chart('container', {
+        chart: {
+            type: 'spline'
+        },
+        title: {
+            text: 'Your Card Beahavior'
+        },
+        subtitle: {
+            text: [[${infor}]]
+        },
+        xAxis: {
+            categories: [[${keySet}]],
+            accessibility: {
+                description: 'Months of the year'
+            }
+        },
+        yAxis: {
+            title: {
+                text: 'Number of touches'
+            },
+            min: 0,
+            max:40,
+
+
+
+        },
+        tooltip: {
+            crosshairs: true,
+            shared: true
+        },
+        plotOptions: {
+            spline: {
+                marker: {
+                    radius: 4,
+                    lineColor: '#666666',
+                    lineWidth: 1
+                }
+            }
+        },
+        series: [{
+            name: 'Visit',
+            marker: {
+                symbol: 'square'
+            },
+            data: [[${values}]]
+
+        }]
+    });
+</script>
+<script type = "text/javascript">
+    function validate() {
+        if( document.myForm.name.value == "" || document.myForm.name.value.toString().trim() == "") {
+            alert("Please provide your button name!") ;
+            document.myForm.name.focus() ;
+            return false;
+        }
+        if( document.myForm.url.value == "" ) {
+            alert("Please provide your Url!") ;
+            document.myForm.url.focus() ;
+            return false;
+        }
+        if(document.myForm.type.value == 6){
+            var x = document.myForm.url.value;
+        }
+        return( true );
+    }
+
+    function validateEdit() {
+        if( document.myEditForm.name.value == "" || document.myEditForm.name.value.toString().trim() == "") {
+            alert("Please provide your button name!") ;
+            document.myEditForm.name.focus() ;
+            return false;
+        }
+        if( document.myEditForm.url.value == "" || document.myEditForm.url.value.toString().trim() == "") {
+            alert("Please provide your Url!") ;
+            document.myEditForm.url.focus() ;
+            return false;
+        }
+        return( true );
+    }
+</script>
+<script>
+    function delete_oldImage(){
+        var oldImage = document.getElementById('oldImage');
+        oldImage.remove();
+    }
+    function previewImages() {
+        var $preview = $('#preview-image').empty();
+        if (this.files) $.each(this.files, readAndPreview);
+        function readAndPreview(i, file) {
+            if (!/\.(jpe?g|png|gif)$/i.test(file.name)){
+                return alert(file.name +" is not an image");
+                file.delete();
+            } // else...
+            var reader = new FileReader();
+            $(reader).on("load", function() {
+                $preview.append($("<img/>", {src:this.result, height:88}));
+            });
+            reader.readAsDataURL(file);
+        }
+    }
+    $('#input-image').on("change", previewImages);
+
+</script>
+
+<script type="text/javascript">
+    function update() {
+        var select = document.getElementById('TypeId');
+        var option = select.options[select.selectedIndex];
+        var url = "";
+        if(option.value ==1){
+            url = "https://www.facebook.com/";
+        }
+        if(option.value ==2){
+            url = "https://www.instagram.com/";
+        }
+        if(option.value ==3){
+            url = "https://www.telegram.com/";
+        }
+        if(option.value ==4){
+            url = "https://wa.me/";
+        }
+        if(option.value ==5){
+            url = "https://twitter.com/";
+        }
+        if(option.value ==6){
+            url = "Enter Your Phone Number";
+        }
+        if(option.value ==7){
+            url = "Enter Your Email";
+        }
+        if(option.value ==8){
+            url = "Enter Url";
+        }
+        document.getElementById('text').innerHTML = url;
+    }
+    update();
+
+    function NewUpdate() {
+        var select = document.getElementById('NewTypeId');
+        var option = select.options[select.selectedIndex];
+        var url = "";
+        if(option.value ==1){
+            url = "https://www.facebook.com/";
+        }
+        if(option.value ==2){
+            url = "https://www.instagram.com/";
+        }
+        if(option.value ==3){
+            url = "https://www.telegram.com/";
+        }
+        if(option.value ==4){
+            url = "https://wa.me/";
+        }
+        if(option.value ==5){
+            url = "https://twitter.com/";
+        }
+        if(option.value ==6){
+            url = "Enter Your Phone Number";
+        }
+        if(option.value ==7){
+            url = "Enter Your Email";
+        }
+        if(option.value ==8){
+            url = "Enter Url";
+        }
+        document.getElementById('NewText').innerHTML = url;
+    }
+    NewUpdate();
+</script>

@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{Client/clientLayOut.html}">
+<head>
+    <meta charset="UTF-8">
+    <title>OneTouch || Order Product</title>
+</head>
+<body>
+     <div layout:fragment="content">
+         <section class="module">
+             <div class="container">
+                 <div class="row">
+                     <div class="col-sm-6 col-sm-offset-3">
+                         <h1 class="module-title font-alt">Checkout</h1>
+                     </div>
+                 </div>
+                 <hr class="divider-w pt-20">
+                 <div class="row mt-70">
+                     <div class="col-sm-7">
+                         <h4 class="font-alt">Order Information</h4>
+                         <form class="form" th:action="@{/CheckOut}" method="post" th:object="${CreateOrder}" th:id="theForm" name="myForm">
+                             <input type="hidden" th:field="*{category_id}" th:value="${category.getId()}">
+                             <div>
+                                 <div class="form-group">
+                                     <label>Duration*</label>
+                                     <select class="form-control" id="NewTypeId" onChange="NewUpdate()" th:field="*{year}">
+                                         <option th:value="1">1 year - 10$</option>
+                                         <option th:value="3">3 years - 25$</option>
+                                         <option th:value="10">10 years - 80$</option>
+                                     </select>
+                                 </div>
+                                 <div class="form-group">
+                                     <label>Name* (This name will be printed on the card)</label>
+                                     <div id="errorName" style="color: #990000"></div>
+                                     <input class="form-control  input-lg"  onKeyPress="checkName()" id="fullname" th:field="*{fullname}" type="text"  placeholder="Full name" minlength="3" maxlength="40" style="text-transform: none" required/>
+                                 </div>
+                                 <div class="form-group">
+                                     <label>Phone*</label>
+                                     <div id="errorPhone"  style="color: #990000"></div>
+                                     <input class="form-control  input-lg" th:field="*{phone}" id="phone" placeholder="Phone" onKeyPress="checkPhone()" />
+                                 </div>
+                                 <div class="form-group">
+                                     <label>Email*</label>
+                                     <div id="errorEmail"  style="color: #990000"></div>
+                                     <input class="form-control  input-lg" th:field="*{email}" onKeyPress="checkEmail()" id="email" placeholder="Email" minlength="3" maxlength="40" style="text-transform: none" required/>
+                                 </div>
+                                 <div class="form-group">
+                                     <label>Address*</label>
+                                     <div id="errorAddress"  style="color: #990000"></div>
+                                     <div class="place"></div>
+                                     <input class="form-control  input-lg" th:field="*{address}" onKeyPress="checkAddress()" placeholder="Address" id="searchTextField" minlength="3" maxlength="40" style="text-transform: none" required/>
+                                     <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAzXOsTOt4FHKc9fk8gply0dQulD2 ON3iU&libraries=places"></script>
+                                     <script>
+                                         const searchInput = document.getElementById('searchTextField');
+                                         const autocomplete = new google.maps.places.Autocomplete(searchInput);
+
+                                         searchInput.addEventListener("change", () => {
+                                             setTimeout(function() {
+                                                 let addr = searchInput.value;
+                                                 let embed = "<label for='exampleInputPassword1'></label><iframe width='634px' frameborder='0' scrolling='no' marginheight='0' marginwidth='0' src='https://maps.google.com/maps?&amp;q=" + encodeURIComponent(addr) + "&amp;output=embed'></iframe>";
+                                                 $('.place').html(embed);
+                                             }, 200);
+                                             console.log(searchInput.value)
+
+                                         });
+                                     </script>
+
+                                 </div>
+                             </div>
+                             <script
+                                     src="https://www.paypal.com/sdk/js?client-id=ATm7GR6Tr2ulSZ7sqXcSnRPY0f3So7T6fsvOgHWUaLCI_kzwS_UQobBBXRnWj59jXeUvIJUMfmsFXcoe"> // Required. Replace YOUR_CLIENT_ID with your sandbox client ID.
+                             </script>
+                             <div id="paypal-button-container" type="submit"></div>
+                             <script>
+                                 paypal.Buttons({
+                                     createOrder: function(data, actions) {
+                                         // This function sets up the details of the transaction, including the amount and line item details.
+                                         return actions.order.create({
+                                             purchase_units: [{
+                                                 amount: {
+                                                     value: GetToTal()
+                                                 }
+                                             }]
+                                         });
+                                     },
+                                     onApprove: function(data, actions) {
+                                         // This function captures the funds from the transaction.
+                                         return actions.order.capture().then(function(details) {
+                                             // This function shows a transaction success message to your buyer.
+                                             alert('Transaction completed by ' + details.payer.name.given_name);
+                                             //document.getElementById('payment').innerHTML = '<input name="payment" value="true" hidden>'
+                                             document.getElementById('theForm').submit();
+                                         });
+                                     }
+                                 }).render('#paypal-button-container');
+                                 //This function displays Smart Payment Buttons on your web page.
+                             </script>
+                         </form>
+                     </div>
+                     <div class="col-sm-5">
+                         <div class="shop-Cart-totalbox">
+                             <h4 class="font-alt">Cart Totals</h4>
+                             <table class="table table-striped table-border checkout-table" style="margin-top: 32px">
+                                 <tbody>
+                                 <tr>
+                                     <th>Item:</th>
+                                     <td height="90px"><img th:src="${category.getFrontImage()}" style="height: 110px"/></td>
+                                 </tr>
+                                 <tr>
+                                     <th>Name: </th>
+                                     <td th:text="${category.getName()}"><</td>
+                                 </tr>
+                                 <tr>
+                                     <th>Price :</th>
+                                     <td id="Price"></td>
+                                 </tr>
+                                 <tr>
+                                     <th>Shipping Fee :</th>
+                                     <td>2$</td>
+                                 </tr>
+                                 <tr class="shop-Cart-totalprice">
+                                     <th>Total :</th>
+                                     <td id="Total"></td>
+                                 </tr>
+                                 </tbody>
+                             </table>
+                         </div>
+                     </div>
+                 </div>
+             </div>
+         </section>
+
+         <section class="module">
+             <div class="container">
+                 <div class="row">
+
+                 </div>
+             </div>
+         </section>
+     </div>
+</body>
+</html>
+
+<script>
+    window.onload = function(){
+        if( [[${category.getQuantity()}]] ==0){
+            alert('Your Category which you want to order is not enough the quantity');
+            window.location.replace("http://localhost:8081/Shopping");
+        }
+    }
+    function checkName(){
+        if(document.getElementById("fullname").value == "" || document.getElementById("fullname").value.toString().trim() == ""){
+            document.getElementById("errorName").innerHTML="Please input your Fullname";
+        }
+        else{
+            document.getElementById("errorName").innerHTML="";
+        }
+    }
+    function checkPhone(){
+        if(document.getElementById("phone").value == "" || document.getElementById("phone").value.toString().trim() == ""){
+            document.getElementById("errorPhone").innerHTML="Please input your Phone";
+        }
+        else{
+            document.getElementById("errorPhone").innerHTML="";
+        }
+
+        if(document.getElementById("phone").value.toString().trim().length !=9 ){
+            document.getElementById("errorPhone").innerHTML="Please input your Phone with 10 character";
+        }
+        else{
+            document.getElementById("errorPhone").innerHTML="";
+        }
+    }
+    function checkEmail(){
+        if(document.getElementById("email").value == "" || document.getElementById("email").value.toString().trim() == ""){
+            document.getElementById("errorEmail").innerHTML="Please input your Email";
+        }
+        else if(document.getElementById("email").value.toString().trim().length <3 ){
+            document.getElementById("errorEmail").innerHTML="Please input your Email with at least 3 character";
+        }
+        else{
+            document.getElementById("errorEmail").innerHTML="";
+        }
+    }
+    function checkAddress(){
+        if(document.getElementById("searchTextField").value == "" || document.getElementById("searchTextField").value.toString().trim() == ""){
+            document.getElementById("errorAddress").innerHTML="Please input your Address";
+        }
+        else if(document.getElementById("searchTextField").value.toString().trim().length <5 ){
+            document.getElementById("errorAddress").innerHTML="Please input your Address with at least 6 character";
+        }
+        else{
+            document.getElementById("errorAddress").innerHTML="";
+        }
+    }
+
+
+    function NewUpdate() {
+        var select = document.getElementById('NewTypeId');
+        var option = select.options[select.selectedIndex];
+        var price = "";
+        var total ="";
+        if(option.value ==1){
+            price = "10$";
+            total = "12$"
+        }
+        if(option.value ==3){
+            price = "25$";
+            total = "27$"
+        }
+        if(option.value ==10){
+            price = "80$";
+            total = "82$"
+        }
+        document.getElementById('Price').innerHTML = price;
+        document.getElementById('Total').innerHTML = total;
+    }
+    NewUpdate();
+    function GetToTal(){
+        var select = document.getElementById('NewTypeId');
+        var option = select.options[select.selectedIndex];
+        var paypal;
+        if(option.value ==1){
+            paypal = 12
+        }
+        if(option.value ==3){
+            paypal = 27
+        }
+        if(option.value ==10){
+            paypal = 82
+        }
+        return paypal;
+    }
+</script>

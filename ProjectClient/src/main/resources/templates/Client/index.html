@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{Client/clientLayOut.html}">
+<head>
+    <meta charset="UTF-8">
+    <title>One Touch || Home</title>
+</head>
+<body>
+  <div layout:fragment="content">
+      <section class="home-section home-parallax home-fade home-full-height bg-dark-60 agency-page-header" id="home" data-background="assets/images/banner_index.jpg">
+          <div class="titan-caption">
+              <div class="caption-content">
+<!--                  <div class="font-alt mb-30 titan-title-size-1">Grow your awesome idea</div>-->
+<!--                  <div class="font-alt mb-40 titan-title-size-3">Make business <span class="rotate">easy | simple | flexible</span>-->
+<!--                  </div><a class="section-scroll btn btn-border-w btn-circle" href="#about">Learn More</a>-->
+              </div>
+          </div>
+      </section>
+      <div class="main">
+          <section class="module">
+              <div class="container">
+                  <div class="row multi-columns-row">
+                      <div class="col-md-3 col-sm-6 col-xs-12">
+                          <div class="features-item">
+                              <div class="features-icon"><span class="icon-lightbulb"></span></div>
+                              <h3 class="features-title font-alt">Ideas and concepts</h3>Careful attention to detail and clean, well structured code ensures a smooth user experience for all your visitors.
+                          </div>
+                      </div>
+                      <div class="col-md-3 col-sm-6 col-xs-12">
+                          <div class="features-item">
+                              <div class="features-icon"><span class="icon-tools"></span></div>
+                              <h3 class="features-title font-alt">Designs &amp; interfaces</h3>Careful attention to detail and clean, well structured code ensures a smooth user experience for all your visitors.
+                          </div>
+                      </div>
+                      <div class="col-md-3 col-sm-6 col-xs-12">
+                          <div class="features-item">
+                              <div class="features-icon"><span class="icon-tools-2"></span></div>
+                              <h3 class="features-title font-alt">Coding &amp; development</h3>Careful attention to detail and clean, well structured code ensures a smooth user experience for all your visitors.
+                          </div>
+                      </div>
+                      <div class="col-md-3 col-sm-6 col-xs-12">
+                          <div class="features-item">
+                              <div class="features-icon"><span class="icon-lifesaver"></span></div>
+                              <h3 class="features-title font-alt">Dedicated support</h3>Careful attention to detail and clean, well structured code ensures a smooth user experience for all your visitors.
+                          </div>
+                      </div>
+                  </div>
+              </div>
+          </section>
+          <section class="module pt-0 pb-0" id="about">
+              <div class="row position-relative m-0">
+                  <div class="col-xs-12 col-md-6 side-image" data-background="assets/images/two_banner_right.gif"></div>
+                  <div class="col-xs-12 col-md-6 col-md-offset-6 side-image-text">
+                      <div class="row">
+                          <div class="col-sm-12">
+                              <h2 class="module-title font-alt align-left">What is ONETOUCH smart personal card?</h2>
+                              <div class="module-subtitle font-serif align-left">
+                                  ONETOUCH is a smart personal card that provides an integrated platform of all necessary information that users use to Exchange and Connect.</div>
+                              <p>⚡️No support app required.</p>
+                              <p>😄 Easily change and update information</p>
+                              <p>😎 Impress the other person in the first meeting</p>
+                              <p>📱 Compatible with current popular smartphone models</p>
+                              <p>⏤ The ONETOUCH personal smart card does not require the user to provide access rights and passwords of social networking sites</p>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+          </section>
+          <section class="module pb-0" id="works">
+              <div class="container">
+                  <div class="row">
+                      <div class="col-sm-6 col-sm-offset-3">
+                          <h2 class="module-title font-alt">Our Products</h2>
+                          <div class="module-subtitle font-serif"></div>
+                      </div>
+                  </div>
+              </div>
+              <div class="container">
+                  <ul th:each="category :  ${categories}" class="works-grid works-grid-gut works-grid-4 works-hover-d" id="works-grid">
+                      <li class="work-item illustration"><a th:href="@{/Details-{id}(id=${category.id})}">
+                          <div class="work-image"><img th:src="${category.getFrontImage()}" alt="Portfolio Item"/></div>
+                          <div class="work-caption font-alt">
+                              <h3 class="work-title" th:text="${category.getName()}"></h3>
+                          </div></a></li>
+                      <li class="work-item illustration"><a th:href="@{/Details-{id}(id=${category.id})}">
+                          <div class="work-image"><img th:src="${category.getBackImage()}" alt="Portfolio Item"/></div>
+                          <div class="work-caption font-alt">
+                              <h3 class="work-title" th:text="${category.getName()}"></h3>
+                          </div></a></li>
+                  </ul>
+              </div>
+          </section>
+          <section class="module" id="pricing">
+              <div class="container">
+                  <div class="row">
+                      <div class="col-sm-6 col-sm-offset-3">
+                          <h2 class="module-title font-alt">Our Prices</h2>
+                          <div class="module-subtitle font-serif">A wonderful serenity has taken possession of my entire soul, like these sweet mornings of spring which I enjoy with my whole heart.</div>
+                      </div>
+                  </div>
+                  <div class="row multi-columns-row">
+                      <div class="col-sm-6 col-md-4 col-lg-4">
+                          <div class="price-table font-alt">
+                              <h4>1 year</h4>
+                              <div class="borderline"></div>
+                              <p class="price"><span>$</span>10
+                              </p>
+                              <ul class="price-details">
+                                  <li>Free Support</li>
+                                  <li><span>Saving Money</span></li>
+                              </ul>
+                          </div>
+                      </div>
+                      <div class="col-sm-6 col-md-4 col-lg-4">
+                          <div class="price-table font-alt">
+                              <h4>3 years</h4>
+                              <div class="borderline"></div>
+                              <p class="price"><span>$</span>25
+                              </p>
+                              <ul class="price-details">
+                                  <li>Free Support</li>
+                                  <li>Save 5$</li>
+
+                              </ul>
+                          </div>
+                      </div>
+                      <div class="col-sm-6 col-md-4 col-lg-4">
+                          <div class="price-table font-alt best">
+                              <h4>10 years</h4>
+                              <p class="small">Best Choice</p>
+                              <div class="borderline"></div>
+                              <p class="price"><span>$</span>80
+                              </p>
+                              <ul class="price-details">
+                                  <li>Free Support</li>
+                                  <li>Save 20$</li>
+                              </ul>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+          </section>
+          <section class="module-small bg-dark">
+              <div class="container">
+                  <div class="row">
+                      <div class="col-sm-6 col-md-8 col-lg-6 col-lg-offset-2">
+                          <div class="callout-text font-alt">
+                              <h3 class="callout-title">Want to Buy?</h3>
+                              <p>We are always here to help you</p>
+                          </div>
+                      </div>
+                      <div class="col-sm-6 col-md-4 col-lg-2">
+                          <div class="callout-btn-box"><a class="btn btn-w btn-round" th:href="@{/Shopping}">Shopping now!</a></div>
+                      </div>
+                  </div>
+              </div>
+          </section>
+          <hr class="divider-w"/>
+          <section class="module">
+              <div class="container">
+                  <div class="row">
+                      <div class="col-sm-12">
+                          <h4 class="font-alt mb-30">Frequently Asked Questions</h4>
+                          <div class="panel-group" id="accordion">
+                              <div class="panel panel-default">
+                                  <div class="panel-heading">
+                                      <h4 class="panel-title font-alt"><a data-toggle="collapse" data-parent="#accordion" href="#support1">How does ONETOUCH work?</a></h4>
+                                  </div>
+                                  <div class="panel-collapse collapse in" id="support1">
+                                      <div class="panel-body">
+                                          <p> ONETOUCH applies 2 technologies available on current smartphones to share and connect. Your phone will
+                                              receive information from ONETOUCH products through close communication by touch feature or using will
+                                              receive information from ONETOUCH products through close communication by touch feature or using QR Code
+                                              image scanning code.</p>
+
+                                          <p> These are all basic and highly applicable forms of information exchange that are mostly equipped in
+                                              smartphones on the market today. Without requiring any compatible applications, you can always
+                                              confidently use ONETOUCH products to connect with friends and partners quickly and easily.</p>
+
+                                      </div>
+                                  </div>
+                              </div>
+                              <div class="panel panel-default">
+                                  <div class="panel-heading">
+                                      <h4 class="panel-title font-alt"><a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#support2">Compatible models?</a></h4>
+                                  </div>
+                                  <div class="panel-collapse collapse" id="support2">
+                                      <div class="panel-body">
+                                          <p>Most of the smartphones available on the market can use ONTHECARD products in one of 2 features TOUCH and SCAN.</p>
+
+                                          <p> 📲FOR QR CODE SCAN FEATURES</p>
+
+                                          <p>👉Most smartphones today are compatible with the QR code "Scan" function.</p>
+
+                                          <p>📲FOR TOUCH FEATURES</p>
+
+                                          <p>👉🏻IPHONE: iPhone (XR, XS, XS Max, 11, 11 Pro, 11 Pro Max, SE, 12 mini, 12, 12 Pro, ..) and later Apple models</p>
+
+                                          <p>NOTE: iPhone (X, 8+, 8, 7+, 7) must be updated to iOS 14 to use the TOUCH feature.</p>
+
+                                          <p> 👉🏻ANDROID: SAMSUNG, HUAWEI, XIAOMI, GOOGLE, HTC, LG, .. can also use the TOUCH feature with specific models as follows:</p>
+
+                                          <p><a href="#">EXPLORE MORE</a></p>
+                                      </div>
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+          </section>
+      </div>
+
+  </div>
+</body>
+</html>
